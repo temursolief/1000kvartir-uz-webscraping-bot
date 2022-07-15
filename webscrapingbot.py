@@ -34,16 +34,11 @@ def start(update:Update, context: CallbackContext):
 def rent_keyboard():
     return ReplyKeyboardMarkup(
         keyboard=[
-            [KeyboardButton(text="1"),
-             KeyboardButton(text="2"),
-             KeyboardButton(text="3"),
-             KeyboardButton(text="4")
-             ],
-            [KeyboardButton(text="5"),
-             KeyboardButton(text="6"),
-             KeyboardButton(text="7"),
-             KeyboardButton(text="8")],
-        ],
+            keyboard=[
+                [KeyboardButton(text=str(i)) for i in range(1:5)],
+                [KeyboardButton(text=str(i)) for i in range(1:5)],
+                ],
+            ],
         resize_keyboard=True
     )
 
@@ -101,16 +96,10 @@ def buy_results(update: Update, context: CallbackContext):
 def buy_keyboard():
     return ReplyKeyboardMarkup(
         keyboard=[
-            [KeyboardButton(text="1"),
-             KeyboardButton(text="2"),
-             KeyboardButton(text="3"),
-             KeyboardButton(text="4")
-             ],
-            [KeyboardButton(text="5"),
-             KeyboardButton(text="6"),
-             KeyboardButton(text="7"),
-             KeyboardButton(text="8")],
-        ],
+            [KeyboardButton(text=str(i)) for i in range(1:5)],
+            [KeyboardButton(text=str(i)) for i in range(1:5)
+             ]
+            ],
         resize_keyboard=True
     )
 
@@ -175,14 +164,7 @@ def main():
         entry_points=[MessageHandler(
             Filters.text("Sotib olish"), buy)],
         states = {
-            BUY: [(MessageHandler(Filters.text("1"), buy_results)),
-                  (MessageHandler(Filters.text("2"), buy_results)),
-                  (MessageHandler(Filters.text("3"), buy_results)),
-                  (MessageHandler(Filters.text("4"), buy_results)),
-                  (MessageHandler(Filters.text("5"), buy_results)),
-                  (MessageHandler(Filters.text("6"), buy_results)),
-                  (MessageHandler(Filters.text("7"), buy_results)),
-                  (MessageHandler(Filters.text("8"), buy_results))]
+            BUY: [MessageHandler(Filters.text(str(i)), rent_results) for i in range(1,9)]
         },
         fallbacks=[CommandHandler("start", start)]
         )
@@ -190,14 +172,7 @@ def main():
         entry_points=[MessageHandler(
             Filters.text("Ijaraga olish"), rent)],
         states={
-            RENT: [(MessageHandler(Filters.text("1"), rent_results)),
-                  (MessageHandler(Filters.text("2"), rent_results)),
-                  (MessageHandler(Filters.text("3"), rent_results)),
-                  (MessageHandler(Filters.text("4"), rent_results)),
-                  (MessageHandler(Filters.text("5"), rent_results)),
-                  (MessageHandler(Filters.text("6"), rent_results)),
-                  (MessageHandler(Filters.text("7"), rent_results)),
-                  (MessageHandler(Filters.text("8"), rent_results))]
+            RENT: [MessageHandler(Filters.text(str(i)), buy_results) for i in range(1, 9)]
         },
         fallbacks=[CommandHandler("start", start)]
         )
