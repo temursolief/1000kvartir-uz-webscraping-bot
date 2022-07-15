@@ -14,7 +14,7 @@ logging.basicConfig(
 
 logger = logging.getLogger(__name__)
 
-TELEGRAM_TOKEN = ""
+TELEGRAM_TOKEN = "5470929952:AAEwtUHStfTEhwFt1oisEzBTnmfoxZCr4Es"
 
 def start_keyboard():
     return ReplyKeyboardMarkup(
@@ -34,11 +34,9 @@ def start(update:Update, context: CallbackContext):
 def rent_keyboard():
     return ReplyKeyboardMarkup(
         keyboard=[
-            keyboard=[
-                [KeyboardButton(text=str(i)) for i in range(1:5)],
-                [KeyboardButton(text=str(i)) for i in range(1:5)],
+                [KeyboardButton(text=str(i)) for i in range(1,5)],
+                [KeyboardButton(text=str(i)) for i in range(5,9)],
                 ],
-            ],
         resize_keyboard=True
     )
 
@@ -96,9 +94,8 @@ def buy_results(update: Update, context: CallbackContext):
 def buy_keyboard():
     return ReplyKeyboardMarkup(
         keyboard=[
-            [KeyboardButton(text=str(i)) for i in range(1:5)],
-            [KeyboardButton(text=str(i)) for i in range(1:5)
-             ]
+            [KeyboardButton(text=str(i)) for i in range(1,5)],
+            [KeyboardButton(text=str(i)) for i in range(5,9)]
             ],
         resize_keyboard=True
     )
@@ -149,7 +146,7 @@ def rent_results(update: Update, context: CallbackContext):
             chat_id, "Mana senga olam-olam uuuuuy! 🎶\nEtagingga siqqanicha oooool! 😂")
     except:
         context.bot.send_message(
-            chat_id, "Kechirasiz, hech nima topa olmadim 🤔", reply_markup=start_keyboard())
+            chat_id, "Kechirasiz, ijaraga hech nima topa olmadim 🤔", reply_markup=start_keyboard())
     return ConversationHandler.END
 
 def main():
@@ -164,7 +161,7 @@ def main():
         entry_points=[MessageHandler(
             Filters.text("Sotib olish"), buy)],
         states = {
-            BUY: [MessageHandler(Filters.text(str(i)), rent_results) for i in range(1,9)]
+            BUY: [MessageHandler(Filters.text(str(i)), buy_results) for i in range(1,9)]
         },
         fallbacks=[CommandHandler("start", start)]
         )
@@ -172,7 +169,7 @@ def main():
         entry_points=[MessageHandler(
             Filters.text("Ijaraga olish"), rent)],
         states={
-            RENT: [MessageHandler(Filters.text(str(i)), buy_results) for i in range(1, 9)]
+            RENT: [MessageHandler(Filters.text(str(i)), rent_results) for i in range(1, 9)]
         },
         fallbacks=[CommandHandler("start", start)]
         )
